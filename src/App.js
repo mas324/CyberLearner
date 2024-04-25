@@ -4,10 +4,12 @@ import HomePage from './pages/HomePage';
 import Quizzer from './pages/Quizzlet';
 import DevicePage from './pages/Devices';
 import Report from './pages/Reporter';
+import { navbar as NavBar } from './components/Navbar';
 
 function App() {
   return (
     <Router>
+      <NavBar />
       <Routes>
         <Route exact path='/' element={<HomePage />} />
         <Route path='/devices' element={<DevicePage />} />

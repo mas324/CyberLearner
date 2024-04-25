@@ -1,5 +1,24 @@
-import { NavLink as Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+
+export const navbar = () => {
+    return (
+        <div>
+            <li>
+                <Link to="/">Home</Link>
+            </li>
+            <li>
+                <Link to="/devices">Devices</Link>
+            </li>
+            <li>
+                <Link to="/reports">Reports</Link>
+            </li>
+            <li>
+                <Link to="/quizzes">Quizzler</Link>
+            </li>
+        </div>
+    )
+}
 
 export const Nav = styled.nav`
     background: #ffb3ff;
