@@ -2,7 +2,7 @@ import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FlatList, Text, View } from "react-native";
 
-type CISA = {
+export type CISA = {
     cveID: string;
     vendorProject: string;
     product: string;
