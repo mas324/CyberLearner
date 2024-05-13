@@ -1,10 +1,12 @@
 import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { CISA } from "./Reporter";
 
 export default function Index() {
-  const arraytest: Array<CISA> = [{ cveID: '1', dateAdded: '1', dueDate: '1', knownRansomwareCampaignUse: 'true', notes: '', product: '', requiredAction: 'yes', shortDescription: 'thingy to do the thing', vendorProject: 'abcdefg', vulnerabilityName: 'extrathing' }];
+  const object = require('../assets/known_exploited_vulnerabilities.json');
+  const arraytest: Array<CISA> = object.vulnerabilities;
+  arraytest.sort((a, b) => Date.parse(b.dateAdded) - Date.parse(a.dateAdded));
   return (
     <View
       style={{
@@ -13,21 +15,25 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <View>
+      <View style={{ flex: 5 }}>
         <FlatList
-          data={arraytest}
-          renderItem={(item) => {
+          style={{}}
+          data={arraytest.length > 50 ? arraytest.slice(0, 50) : arraytest}
+          renderItem={({ item }) => {
             return (
-              <Text>{item.item.cveID}</Text>
+              <View style={{ flex: 1, paddingVertical: 10, }}>
+                <Text>Company or product involved: {item.vendorProject}</Text>
+                <Text>Known as of {item.dateAdded}</Text>
+                <Text>{item.shortDescription}</Text>
+              </View>
             )
           }}
         />
       </View>
-      <View>
-        <Link href='/Quizzlet'>Quiz</Link>
+      <View style={{ flex: 1, flexDirection: 'row', alignContent: 'space-around', justifyContent: 'space-around' }}>
+        <Link href='/Quizzlet' style={{ alignSelf: 'center' }}>Quiz</Link>
+        <Link href='/Reporter' style={{ alignSelf: 'center' }}>Reports</Link>
       </View>
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-      <Link href='/Reporter'>Reports</Link>
     </View>
   );
 }

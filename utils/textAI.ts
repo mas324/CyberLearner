@@ -1,8 +1,7 @@
 //import OpenAI from "openai";
-const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require('@google/generative-ai');
-require('dotenv').config();
+import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
+const genAI = new GoogleGenerativeAI('AIzaSyDogBSNibVaxisn_1KDPYQEp8EbQz_my6U');
 
 const safetySettings = [
     {
@@ -32,13 +31,19 @@ const generationConfig = {
 
 const model = genAI.getGenerativeModel({ model: 'gemini-pro', safetySettings: safetySettings, generationConfig: generationConfig });
 
-async function ask(question: string) {
+export async function ask(question: string) {
+    console.log('asking question', question);
     const prompt = 'Simplify the following message, assuming the user has no knowledge of technology:' + question;
-    const result = (await model.generateContent(prompt)).response.text();
+    let result = (await model.generateContent(prompt)).response.text();
+    if (result.includes('**Simplified Message:**')) {
+        result = result.replace('**Simplified Message:**', '').trim();
+    }
     return result;
 }
 
-async function createQuestion(data: string) {
-    const prompt = 'Given the following description, create a question with 2 answers and 6 false answers with each answer delimit the real ones with # and the false ones with ###.' + data;
-    
+export async function createQuestion(data: string) {
+    const prompt = 'Given the following description, create a question with 2 answers and 6 false answers with each answer delimit the real ones with # and the false ones with $.' + data;
+    let result = (await model.generateContent(prompt)).response.text();
+    result = result.trim();
+    return result;
 }
