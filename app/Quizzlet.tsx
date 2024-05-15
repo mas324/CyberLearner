@@ -6,22 +6,20 @@ import React from "react";
  */
 
 type Problem = {
-    question : string;
-    selection_one: string;
-    selection_two: string;
-    selection_three: string;
-    selection_four: string;
-    correct: number;
-}
+  question: string;
+  selection_one: string;
+  selection_two: string;
+  selection_three: string;
+  selection_four: string;
+  correct: number;
+};
 
 function Card() {
-    return (
-        <div>
-            <p>
-                Card test
-            </p>
-        </div>
-    )
+  return (
+    <div>
+      <p>Card test</p>
+    </div>
+  );
 }
 
 /**
@@ -31,16 +29,16 @@ function Card() {
  */
 
 const Quizzer = () => {
-    return (
-        <div>
-            <h1>Page containing different quizzes</h1>
-            <p>
-                Research more on how they were to adapt that
-                Java program to create a QA section from a given input.
-            </p>
-            <Card />
-        </div>
-    );
-}
+  return (
+    <div>
+      <h1>Page containing different quizzes</h1>
+      <p>
+        Research more on how they were to adapt that Java program to create a QA
+        section from a given input.
+      </p>
+      <Card />
+    </div>
+  );
+};
 
 export default Quizzer;
