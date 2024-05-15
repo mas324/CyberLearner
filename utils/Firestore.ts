@@ -1,8 +1,8 @@
 import * as Firebase from 'firebase/app';
-import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore'
+import { addDoc, collection, doc, getDoc, getDocs, getFirestore, setDoc } from 'firebase/firestore'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getReactNativePersistence, initializeAuth, AuthErrorCodes, signOut as fireOut } from 'firebase/auth'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { User } from './Types';
+import { Question, User } from './Types';
 import { getItem } from './LocalStore';
 
 export const FireStatusCodes = {
@@ -15,19 +15,24 @@ export const FireStatusCodes = {
 }
 
 const firebaseApp = Firebase.initializeApp({
-
-})
+    apiKey: "AIzaSyBeqt7ybbWEClIPuLr0F7eemLNBcVfP4W4",
+    authDomain: "cyberlearner.firebaseapp.com",
+    projectId: "cyberlearner",
+    storageBucket: "cyberlearner.appspot.com",
+    messagingSenderId: "341550292926",
+    appId: "1:341550292926:web:6101950d0e55b009f0e3ef"
+});
 
 const auth = initializeAuth(firebaseApp, {
     persistence: getReactNativePersistence(AsyncStorage)
-})
+});
 const db = getFirestore(firebaseApp);
 auth.onAuthStateChanged(change => {
     const nullCheck = change === null;
     console.log('Firestore: auth change:', nullCheck ? change : 'user is set');
     nullCheck ? null : change.getIdToken(true);
     //console.log('Firestore: auth change:', change);
-})
+});
 
 export async function signIn(username: string, password: string) {
     try {
@@ -84,5 +89,54 @@ export async function signUp(newUser: User, password: string) {
             console.log("Firestore: returning unknown error:", error.code);
             return { status: FireStatusCodes.ERROR_BAD, data: null };
         }
+    }
+}
+
+export async function addQAS(newQuestion: Question) {
+    try {
+        await addDoc(collection(db, 'qas'), newQuestion);
+    } catch (_err) {
+        console.error(_err);
+    }
+}
+
+export async function getQuestions() {
+    try {
+        const docs = await getDocs(collection(db, 'qas'));
+        if (docs.empty) {
+            return null;
+        }
+        const questionArray = Array<Question>();
+        docs.forEach(result => {
+            questionArray.push(result.data() as Question);
+        });
+        return questionArray;
+    } catch (_err) {
+        console.error(_err);
+        return null;
+    }
+}
+
+export async function addDesc(newDesc: { cve_id: string, description: string }) {
+    try {
+
+    } catch (_err) {
+        console.error(_err);
+    }
+}
+
+export async function getDescription(cve_id: string) {
+    try {
+
+    } catch (_err) {
+        console.error(_err);
+    }
+}
+
+export async function getAllDescriptions() {
+    try {
+
+    } catch (_err) {
+        console.error(_err);
     }
 }

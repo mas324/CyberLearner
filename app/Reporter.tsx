@@ -104,8 +104,9 @@ const Report = () => {
         const toSort = [...result.data.vulnerabilities] as Array<CISA>;
         toSort.sort((a, b) => Date.parse(b.dateAdded) - Date.parse(a.dateAdded));
         for (let i = 0; i < 20; i++) {
-            console.log('asking google ai');
-            toSort[i].shortDescription = await ask(toSort[i].shortDescription);
+            //console.log('asking google ai');
+            const rewrote = await ask(toSort[i].shortDescription);
+            toSort[i].shortDescription = rewrote;
         }
         setData(toSort);
         setItem('cisa', toSort);
